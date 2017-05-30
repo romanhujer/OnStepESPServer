@@ -1,6 +1,7 @@
 // -------------------------------------------------------------------------------
 // Configuration
 
+#define LED_PIN_OFF               // Default=OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
 #define DEBUG_OFF                 // Turn ON to allow WiFi startup without OnStep attached (Serial port for debug at 115200 baud)
 
 #define SERIAL_SWAP_OFF           // Default=OFF, ON to swap ESP8266 Serial default location GPIO 1(TX)/3(RX) to 15(TX)/13(RX) useful for WeMos D1 Mini, for example
@@ -19,7 +20,7 @@
 //
 // If locked out of the ESP8266, a Sketch (like MultiSerial) uploaded to the OnStep MCU (Teensy3.2, Launchpad, etc.) can recover access.
 // Simply sending an 'R' in reply to any '#' received will cause a reset to AP only enabled and the default SSID/Password.  Be sure to
-// upload OnStep again and then restart both devices to resume operation.
+// upload OnStep again if necessary and then restart both devices to resume operation.
 
 // -------------------------------------------------------------------------------
 

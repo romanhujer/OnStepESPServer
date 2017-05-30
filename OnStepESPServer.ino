@@ -136,8 +136,6 @@ const char* html_links1co = "<a href=\"/index.htm\">Status</a><a href=\"/control
 const char* html_links2co = "<a href=\"/guide.htm\">Guide</a><a href=\"/pec.htm\">PEC</a><a href=\"/settings.htm\">Settings</a>";
 const char* html_links3co = "<a href=\"/wifi.htm\">WiFi</a><a href=\"/config.htm\" style=\"background-color: #552222;\">Config.h</a><br />";
 
-#define LED_PIN 2
-
 void handleNotFound(){
   String message = "File Not Found\n\n";
   message += "URI: ";
@@ -155,7 +153,9 @@ void handleNotFound(){
 
 void setup(void){
   delay(3000);
+#ifdef LED_PIN
   pinMode(LED_PIN,OUTPUT);
+#endif
   EEPROM.begin(1024);
 
 Restart:
@@ -216,16 +216,22 @@ Restart:
 #endif
 
 Again:
+#ifdef LED_PIN
   digitalWrite(LED_PIN,LOW);
+#endif
   char c=0;
 
   // clear the buffers and any noise on the serial lines
   for (int i=0; i<3; i++) {
     Serial.print(":#");
+#ifdef LED_PIN
     digitalWrite(LED_PIN,HIGH);
+#endif
     delay(500);
     while (Serial.available()>0) { c=Serial.read(); }
+#ifdef LED_PIN
     digitalWrite(LED_PIN,LOW);
+#endif
   }
 
   // safety net
@@ -253,7 +259,9 @@ Again:
     Serial.swap();
 #endif
   } else {
+#ifdef LED_PIN
     digitalWrite(LED_PIN,HIGH);
+#endif
     delay(5000);
     goto Again;
   }
