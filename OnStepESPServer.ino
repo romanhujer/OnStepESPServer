@@ -229,9 +229,11 @@ Again:
 #endif
     delay(500);
     while (Serial.available()>0) { c=Serial.read(); }
+    Serial.flush();
 #ifdef LED_PIN
     digitalWrite(LED_PIN,LOW);
 #endif
+    delay(500);
   }
 
   // safety net
@@ -246,8 +248,8 @@ Again:
  
   // switch OnStep Serial1 up to ? baud
   Serial.print(SERIAL_BAUD);
-  delay(50);
-  int count=0; c=0;
+  delay(100);
+  c=0;
   if (Serial.available()>0) { c=Serial.read(); }
   if (c=='1') {
     if (!strcmp(SERIAL_BAUD,":SB0#")) Serial.begin(115200); else
