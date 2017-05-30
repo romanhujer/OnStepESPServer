@@ -248,8 +248,8 @@ Again:
   Serial.print(SERIAL_BAUD);
   delay(50);
   int count=0; c=0;
-  while (Serial.available()>0) { count++; c=Serial.read(); }
-  if ((c=='1') && (count==1)) {
+  if (Serial.available()>0) { c=Serial.read(); }
+  if (c=='1') {
     if (!strcmp(SERIAL_BAUD,":SB0#")) Serial.begin(115200); else
     if (!strcmp(SERIAL_BAUD,":SB1#")) Serial.begin(57600); else
     if (!strcmp(SERIAL_BAUD,":SB2#")) Serial.begin(38400); else
