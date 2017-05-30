@@ -1,8 +1,9 @@
 // -------------------------------------------------------------------------------
 // Configuration
 
-#define LED_PIN_OFF               // Default=OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
 #define DEBUG_OFF                 // Turn ON to allow WiFi startup without OnStep attached (Serial port for debug at 115200 baud)
+
+#define LED_PIN_OFF               // Default=OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
 
 #define SERIAL_SWAP_OFF           // Default=OFF, ON to swap ESP8266 Serial default location GPIO 1(TX)/3(RX) to 15(TX)/13(RX) useful for WeMos D1 Mini, for example
 #define SERIAL_BAUD_DEFAULT 9600  // Default=9600, OnStep must be attached and running it's Serial1 interface this baud rate

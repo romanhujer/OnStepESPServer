@@ -313,7 +313,7 @@ Again:
   for (int i=0; i<3; i++) {
     Serial.print(":#");
     delay(50);
-    while (Serial.available()>0) { c=Serial.read(); }
+    while (Serial.available()>0) { char temp=Serial.read(); }
   }
 
   // Wait for connection
