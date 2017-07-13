@@ -82,7 +82,7 @@ const char html_controlBuzzer1[] =
 const char html_controlBuzzer2[] =
 "<button name=\"ab\" value=\"off\" type=\"submit\">Off</button>";
 const char html_controlMFAuto[] = 
-"</br></br>Auto-flip (automatic Meridian flip): </br>"
+"</br></br>Automatic Meridian Flip (at Limit):<br />"
 "<button name=\"ma\" value=\"on\" type=\"submit\">On</button>"
 "<button name=\"ma\" value=\"off\" type=\"submit\">Off</button>";
 const char html_controlMFPause1[] = 
