@@ -31,7 +31,11 @@ const char html_guideControls7[] =
 "</div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />";
 const char html_guideControls8[] = 
 "<form method=\"get\" action=\"/guide.htm\">"
-">&nbsp;<button name=\"gu\" value=\"q\" type=\"submit\" style=\"height: 40px;\">Stop Slew/Guide!</button>&nbsp;<<br /><br /></form>\r\n";
+">&nbsp;<button name=\"gu\" value=\"q\" type=\"submit\" style=\"height: 40px;\">Stop Slew/Guide!</button>&nbsp;<";
+const char html_guideControls9[] = 
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button name=\"mp\" value=\"co\" type=\"submit\" style=\"height: 40px;\">-> Continue Goto</button>";
+const char html_guideControls10[] = 
+"<br /><br /></form>\r\n";
 
 void handleGuide() {
   Serial.setTimeout(WebTimeout);
@@ -55,6 +59,11 @@ void handleGuide() {
   data += html_main_css8;
   data += html_main_css9;
   data += html_head2;
+
+  // get status
+  char stat[20] = "";
+  Serial.print(":GU#");
+  stat[Serial.readBytesUntil('#',stat,20)]=0;
 
   // finish the standard http response header
   Serial.print(":GVP#");
@@ -81,6 +90,10 @@ void handleGuide() {
   data += html_guideControls6;
   data += html_guideControls7;
   data += html_guideControls8;
+  if (strstr(stat,"E")) {  // GEM only
+    data += html_guideControls9;
+  }
+  data += html_guideControls10;
   data += "</div></body></html>";
 
   server.send(200, "text/html",data);
@@ -124,6 +137,11 @@ void processGuideGet() {
     if (v=="w0") Serial.print(":Qw#");
 
     if (v=="sy") Serial.print(":CS#");
+  }
+  // Pause at meridian flip, continue
+  v=server.arg("mp");
+  if (v!="") {
+    if (v=="co") Serial.print(":SX99,1#");
   }
 }
 

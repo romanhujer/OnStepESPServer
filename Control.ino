@@ -45,8 +45,9 @@ const char html_controlAlign7[] = "<button name=\"al\" value=\"7\" type=\"submit
 const char html_controlAlign8[] = "<button name=\"al\" value=\"8\" type=\"submit\">8 Star</button>";
 const char html_controlAlign9[] = "<button name=\"al\" value=\"9\" type=\"submit\">9 Star</button>";
 const char html_controlAlignA[] = "<br /><button name=\"al\" value=\"n\" type=\"submit\">Accept</button>";
-const char html_controlAlignB[] = "&nbsp;&nbsp;>&nbsp;<button name=\"al\" value=\"q\" type=\"submit\">Stop Slew!</button>&nbsp;<"
-"</form><br />\r\n";
+const char html_controlAlignB[] = "&nbsp;&nbsp;>&nbsp;<button name=\"al\" value=\"q\" type=\"submit\">Stop Slew!</button>&nbsp;<";
+const char html_controlAlignC[] = "&nbsp;&nbsp;&nbsp;<button name=\"mp\" value=\"co\" type=\"submit\">-> Continue Goto</button>";
+const char html_controlAlignD[] = "</form><br />\r\n";
 const char html_control6[] = 
 "Home/Park: "
 "<form method=\"get\" action=\"/control.htm\">"
@@ -70,23 +71,33 @@ const char html_control10[] =
 "<button name=\"tk\" value=\"s\" type=\"submit\">Sidereal</button>"
 "<button name=\"tk\" value=\"l\" type=\"submit\">Lunar</button>"
 "<button name=\"tk\" value=\"h\" type=\"submit\">Solar</button>";
-const char html_control11[] = 
+const char html_controlTrackComp[] = 
 "</br></br>Compensated Tracking Rate (Pointing Model/Refraction): </br>"
 "<button name=\"rr\" value=\"otk\" type=\"submit\">Full</button>"
 "<button name=\"rr\" value=\"on\" type=\"submit\">Refraction Only</button>"
 "<button name=\"rr\" value=\"off\" type=\"submit\">Off</button>";
-const char html_control12[] = 
+const char html_controlBuzzer1[] =
+"<br /><br />Goto Alert, Buzzer: <br />"
+"<button name=\"ab\" value=\"on\" type=\"submit\">On</button>";
+const char html_controlBuzzer2[] =
+"<button name=\"ab\" value=\"off\" type=\"submit\">Off</button>";
+const char html_controlMFAuto[] = 
 "</br></br>Auto-flip (automatic Meridian flip): </br>"
-"<button name=\"ac\" value=\"on\" type=\"submit\">On</button>"
-"<button name=\"ac\" value=\"off\" type=\"submit\">Off</button>";
-const char html_control13[] = 
-"</form>\r\n";
+"<button name=\"ma\" value=\"on\" type=\"submit\">On</button>"
+"<button name=\"ma\" value=\"off\" type=\"submit\">Off</button>";
+const char html_controlMFPause1[] = 
+"</br></br>Meridian Flip, Pause at Home: <br />"
+"<button name=\"mp\" value=\"on\" type=\"submit\">On</button>";
+const char html_controlMFPause2[] =
+"<button name=\"mp\" value=\"off\" type=\"submit\">Off</button>";
+const char html_controlEnd[] = 
+"<br /><br /></form>\r\n";
 
 void handleControl() {
   Serial.setTimeout(WebTimeout);
   serialFlush();
 
-  char temp[320] = "";
+  char temp[320]="";
   char temp1[80]="";
   char temp2[80]="";
   char temp3[80]="";
@@ -153,18 +164,24 @@ void handleControl() {
   if (AlignMaxNumStars>=9) data += html_controlAlign9;
   data += html_controlAlignA;
   data += html_controlAlignB;
+  if (strstr(stat,"E")) data += html_controlAlignC; // GEM Only
+  data += html_controlAlignD;
   data += html_control6;
   data += html_control7;
   data += html_control8;
   data += html_control9;
   data += html_control10;
   if (!strstr(stat,"A")) {  // not AltAzm
-    data += html_control11;
+    data += html_controlTrackComp;
   }
-  data += html_control12;
+  data += html_controlBuzzer1;
+  data += html_controlBuzzer2;
   if (strstr(stat,"E")) {  // GEM only
-    data += html_control13;
+    data += html_controlMFAuto;
+    data += html_controlMFPause1;
+    data += html_controlMFPause2;
   }
+  data += html_controlEnd;
   data += "</div></body></html>";
   
   server.send(200, "text/html", data);
@@ -267,11 +284,24 @@ void processControlGet() {
     if (v=="on") Serial.print(":Tr#");
     if (v=="off") Serial.print(":Tn#");
   }
+  // Alert buzzer
+  v=server.arg("ab");
+  if (v!="") {
+    if (v=="on") Serial.print(":SX97,1#");
+    if (v=="off") Serial.print(":SX97,0#");
+  }
   // Auto-continue
-  v=server.arg("ac");
+  v=server.arg("ma");
   if (v!="") {
     if (v=="on") Serial.print(":SX95,1#");
     if (v=="off") Serial.print(":SX95,0#");
+  }
+  // Pause at meridian flip
+  v=server.arg("mp");
+  if (v!="") {
+    if (v=="on") Serial.print(":SX98,1#");
+    if (v=="off") Serial.print(":SX98,0#");
+    if (v=="co") Serial.print(":SX99,1#");
   }
 
   // clear any possible response
