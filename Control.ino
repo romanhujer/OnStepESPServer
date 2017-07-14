@@ -34,16 +34,8 @@ const char html_control4e[] =
 "</script>\r\n";
 const char html_controlAlign1[] =
 "Align: "
-"<form method=\"get\" action=\"/control.htm\">"
-"<button name=\"al\" value=\"1\" type=\"submit\">1 Star</button>";
-const char html_controlAlign2[] = "<button name=\"al\" value=\"2\" type=\"submit\">2 Star</button>";
-const char html_controlAlign3[] = "<button name=\"al\" value=\"3\" type=\"submit\">3 Star</button>";
-const char html_controlAlign4[] = "<button name=\"al\" value=\"4\" type=\"submit\">4 Star</button>";
-const char html_controlAlign5[] = "<button name=\"al\" value=\"5\" type=\"submit\">5 Star</button>";
-const char html_controlAlign6[] = "<button name=\"al\" value=\"6\" type=\"submit\">6 Star</button>";
-const char html_controlAlign7[] = "<button name=\"al\" value=\"7\" type=\"submit\">7 Star</button>";
-const char html_controlAlign8[] = "<button name=\"al\" value=\"8\" type=\"submit\">8 Star</button>";
-const char html_controlAlign9[] = "<button name=\"al\" value=\"9\" type=\"submit\">9 Star</button>";
+"<form method=\"get\" action=\"/control.htm\">";
+const char html_controlAlign2[] = "<button name=\"al\" value=\"%d\" type=\"submit\">%d Star</button>";
 const char html_controlAlignA[] = "<br /><button name=\"al\" value=\"n\" type=\"submit\">Accept</button>";
 const char html_controlAlignB[] = "&nbsp;&nbsp;>&nbsp;<button name=\"al\" value=\"q\" type=\"submit\">Stop Slew!</button>&nbsp;<";
 const char html_controlAlignC[] = "&nbsp;&nbsp;&nbsp;<button name=\"mp\" value=\"co\" type=\"submit\">-> Continue Goto</button>";
@@ -113,6 +105,8 @@ void handleControl() {
     if (temp1[0]!=0) {
       if ((temp1[0]>'0') && (temp1[0]<'9')) AlignMaxNumStars=temp1[0]-'0';
     }
+    if (AlignMaxNumStars>9) AlignMaxNumStars=9;
+    if (AlignMaxNumStars<1) AlignMaxNumStars=1;
   }
   
   String data=html_head1;
@@ -154,14 +148,7 @@ void handleControl() {
   data += html_control4d;
   data += html_control4e;
   data += html_controlAlign1;
-  if (AlignMaxNumStars>=2) data += html_controlAlign2;
-  if (AlignMaxNumStars>=3) data += html_controlAlign3;
-  if (AlignMaxNumStars>=4) data += html_controlAlign4;
-  if (AlignMaxNumStars>=5) data += html_controlAlign5;
-  if (AlignMaxNumStars>=6) data += html_controlAlign6;
-  if (AlignMaxNumStars>=7) data += html_controlAlign7;
-  if (AlignMaxNumStars>=8) data += html_controlAlign8;
-  if (AlignMaxNumStars>=9) data += html_controlAlign9;
+  for (int i=1; i<=AlignMaxNumStars; i++) { sprintf(temp,html_controlAlign2,i,i); data+=temp; }
   data += html_controlAlignA;
   data += html_controlAlignB;
   if (strstr(stat,"E")) data += html_controlAlignC; // GEM Only

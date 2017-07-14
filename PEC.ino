@@ -25,7 +25,7 @@ void handlePec() {
   serialFlush();
       
   char temp[320] = "";
-  char temp1[320] = "";
+  char temp1[80] = "";
   char temp2[80] = "";
   char temp3[80] = "";
 
