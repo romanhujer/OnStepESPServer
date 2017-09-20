@@ -37,6 +37,25 @@ const char html_guideControls9[] =
 const char html_guideControls10[] = 
 "<br /><br /></form>\r\n";
 
+const char html_guideRotate1[] = 
+"&nbsp;<button type=\"button\" onmousedown=\"guide('r','e')\" style=\"height: 40px;\" >Reset</button>"
+"&nbsp;<button type=\"button\" onmousedown=\"guide('h','o')\" style=\"height: 40px;\" >Home</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+const char html_guideRotate2[] = 
+"&nbsp;<button type=\"button\" onmousedown=\"guide('b','2')\" style=\"height: 40px;\" >&lt;&lt;</button>"
+"&nbsp;<button type=\"button\" onmousedown=\"guide('b','1')\" style=\"height: 40px;\" >&lt;</button>";
+const char html_guideRotate3[] =
+"&nbsp;<button type=\"button\" onmousedown=\"guide('f','1')\" style=\"height: 40px;\" >&gt;</button>"
+"&nbsp;<button type=\"button\" onmousedown=\"guide('f','2')\" style=\"height: 40px;\" >&gt;&gt;</button><br />";
+const char html_guideDeRotate1[] = 
+"&nbsp;<button type=\"button\" onmousedown=\"guide('d','1')\" style=\"height: 40px;\" >De-Rotate On</button>&nbsp;&nbsp;&nbsp;"
+"&nbsp;<button type=\"button\" onmousedown=\"guide('d','r')\" style=\"height: 40px;\" >Rev</button>";
+const char html_guideDeRotate2[] = 
+"&nbsp;<button type=\"button\" onmousedown=\"guide('d','p')\" style=\"height: 40px;\" >P</button>&nbsp;&nbsp;&nbsp;"
+"&nbsp;<button type=\"button\" onmousedown=\"guide('d','0')\" style=\"height: 40px;\" >De-Rotate Off</button><br />";
+
+const char html_guideControls11[] = 
+"<br />\r\n";
+
 void handleGuide() {
   Serial.setTimeout(WebTimeout);
   serialFlush();
@@ -94,6 +113,32 @@ void handleGuide() {
     data += html_guideControls9;
   }
   data += html_guideControls10;
+
+  // Rotate/De-Rotate controls
+  boolean Rotate=false;
+  boolean DeRotate=false;
+  Serial.print(":GX98#");
+  temp2[Serial.readBytesUntil('#',temp2,20)]=0; 
+  if (temp2[0]=='R') { Rotate=true; DeRotate=false; }
+  if (temp2[0]=='D') { Rotate=true; DeRotate=true; }
+  if (Rotate) {
+    data += "<br />Rotator:&nbsp;&nbsp;&nbsp;(Angle = ";
+    Serial.print(":rG#");
+    temp2[Serial.readBytesUntil('#',temp2,20)]=0;
+    temp2[11]='\''; temp2[10]=temp2[6]; temp2[9]=temp2[5]; temp2[8]=';'; temp2[7]='g'; temp2[6]='e'; temp2[5]='d'; temp2[4]='&';
+    data += temp2;
+    data += " &larr; refresh page to update)<br />";
+    data += html_guideRotate1;
+    data += html_guideRotate2;
+    data += html_guideRotate3;
+  }
+  if (DeRotate) {
+    data += html_guideDeRotate1;
+    data += html_guideDeRotate2;
+  }
+
+  data += html_guideControls11;
+  
   data += "</div></body></html>";
 
   server.send(200, "text/html",data);
@@ -142,6 +187,20 @@ void processGuideGet() {
   v=server.arg("mp");
   if (v!="") {
     if (v=="co") Serial.print(":SX99,1#");
+  }
+  // Rotate/De-Rotate
+  v=server.arg("dr");
+  if (v!="") {
+    if (v=="b2") Serial.print(":r3#:r<#");
+    if (v=="b1") Serial.print(":r1#:r<#");
+    if (v=="f1") Serial.print(":r1#:r>#");
+    if (v=="f2") Serial.print(":r3#:r>#");
+    if (v=="ho") Serial.print(":rC#");
+    if (v=="re") Serial.print(":rF#");
+    if (v=="d0") Serial.print(":r-#");
+    if (v=="d1") Serial.print(":r+#");
+    if (v=="dr") Serial.print(":rR#");
+    if (v=="dp") Serial.print(":rP#");
   }
 }
 
