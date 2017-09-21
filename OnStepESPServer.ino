@@ -367,7 +367,7 @@ void loop(void){
     writeBuffer[writeBufferPos]=b; writeBufferPos++; if (writeBufferPos>39) writeBufferPos=39; writeBuffer[writeBufferPos]=0;
 
     // send cmd and pickup the response
-    if (b=='#') {
+    if (b=='#' || ((strlen(writeBuffer)==1) && (b==(char)6))) {
       char readBuffer[40]="";
       readLX200Bytes(writeBuffer,readBuffer,CmdTimeout); writeBuffer[0]=0; writeBufferPos=0;
 

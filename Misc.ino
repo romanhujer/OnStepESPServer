@@ -37,6 +37,7 @@ boolean readLX200Bytes(char* command,char* recvBuffer,long timeOutMs) {
 
   boolean noResponse=false;
   boolean shortResponse=false;
+  if ((command[0]==(char)6) && (command[1]==0)) shortResponse=true;
   if (command[0]==':') {
     if (command[1]=='A') {
       if (strchr("W123456789+",command[2])) { shortResponse=true; Serial.setTimeout(timeOutMs*4); }
