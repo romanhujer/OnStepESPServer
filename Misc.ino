@@ -30,7 +30,7 @@ boolean readLX200Bytes(char* command,char* recvBuffer,long timeOutMs) {
   
   // clear the read/write buffers
   Serial.flush();
-  while (Serial.available()) { byte b=Serial.read(); }
+  serialRecvFlush();
 
   // send the command
   Serial.print(command);
@@ -103,7 +103,7 @@ boolean readLX200Bytes(char* command,char* recvBuffer,long timeOutMs) {
   }
 }
 
-void serialFlush() {
-  while (Serial.available()>0) char c = Serial.read();
+void serialRecvFlush() {
+  while (Serial.available()>0) Serial.read();
 }
 

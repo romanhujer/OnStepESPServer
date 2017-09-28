@@ -3,7 +3,7 @@
 #define Axis1 "RA"
 #define Axis1A "RA"
 #define Axis2 "Dec"
-const char html_index1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_index1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_index2[] = "</td></tr></table>";
 const char html_index3[] = "</div><div class=\"b\">";
 const char* html_indexDate = "<font class=\"c\">%s</font>";
@@ -31,7 +31,7 @@ const char* html_indexWorkload = "Workload: <font class=\"c\">%s</font><br />";
 
 void handleRoot() {
   Serial.setTimeout(WebTimeout);
-  serialFlush();
+  serialRecvFlush();
 
   char temp[320]="";
   char temp1[80]="";

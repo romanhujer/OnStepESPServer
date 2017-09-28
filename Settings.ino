@@ -1,6 +1,6 @@
 // The settings.htm page
 
-const char html_settings1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_settings1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_settings2[] = "</td></tr></table>";
 //const char html_settings1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b>" Product " " Version " / %s %s";
 //const char html_settings2[] = "</b></td><td align=\"right\"><b><font size=\"5\">SETTINGS</font></b></td></tr></table>";
@@ -91,7 +91,7 @@ const char html_settingsOffsetMin[] =
 
 void handleSettings() {
   Serial.setTimeout(WebTimeout);
-  serialFlush();
+  serialRecvFlush();
   
   char temp[320]="";
   char temp1[80]="";

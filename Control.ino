@@ -1,6 +1,6 @@
 // The control.htm page ----------------------------------------------------------------------------------
 
-const char html_control1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_control1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_control2[] = "</td></tr></table>";
 const char html_control3[] = "</div><div class=\"b\">\r\n";
 const char html_control4a[] = 
@@ -87,7 +87,7 @@ const char html_controlEnd[] =
 
 void handleControl() {
   Serial.setTimeout(WebTimeout);
-  serialFlush();
+  serialRecvFlush();
 
   char temp[320]="";
   char temp1[80]="";

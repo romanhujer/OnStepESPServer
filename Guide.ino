@@ -1,6 +1,6 @@
 // The guide.htm page
 
-const char html_guide1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_guide1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_guide2[] = "</td></tr></table>";
 const char html_guide3[] = "</div><div class=\"b\">\r\n";
 const char html_guide4[] = 
@@ -58,10 +58,9 @@ const char html_guideControls11[] =
 
 void handleGuide() {
   Serial.setTimeout(WebTimeout);
-  serialFlush();
+  serialRecvFlush();
     
   char temp[320] = "";
-  char temp1[80]="";
   char temp2[80]="";
   char temp3[80]="";
 
@@ -114,11 +113,12 @@ void handleGuide() {
   }
   data += html_guideControls10;
 
+
   // Rotate/De-Rotate controls
   boolean Rotate=false;
   boolean DeRotate=false;
   Serial.print(":GX98#");
-  temp2[Serial.readBytesUntil('#',temp2,20)]=0; 
+  temp2[Serial.readBytesUntil('#',temp2,20)]=0;
   if (temp2[0]=='R') { Rotate=true; DeRotate=false; }
   if (temp2[0]=='D') { Rotate=true; DeRotate=true; }
   if (Rotate) {
@@ -151,8 +151,6 @@ void handleGuideAjax() {
 
 void processGuideGet() {
   String v;
-  int i;
-  char temp[20]="";
 
   // GUIDE control -----------------------------------------------
   v=server.arg("gu");
@@ -182,15 +180,8 @@ void processGuideGet() {
     if (v=="w0") Serial.print(":Qw#");
 
     if (v=="sy") Serial.print(":CS#");
-  }
-  // Pause at meridian flip, continue
-  v=server.arg("mp");
-  if (v!="") {
-    if (v=="co") Serial.print(":SX99,1#");
-  }
-  // Rotate/De-Rotate
-  v=server.arg("dr");
-  if (v!="") {
+
+    // Rotate/De-Rotate
     if (v=="b2") Serial.print(":r3#:r<#");
     if (v=="b1") Serial.print(":r1#:r<#");
     if (v=="f1") Serial.print(":r1#:r>#");
@@ -201,6 +192,11 @@ void processGuideGet() {
     if (v=="d1") Serial.print(":r+#");
     if (v=="dr") Serial.print(":rR#");
     if (v=="dp") Serial.print(":rP#");
+  }
+  // Pause at meridian flip, continue
+  v=server.arg("mp");
+  if (v!="") {
+    if (v=="co") Serial.print(":SX99,1#");
   }
 }
 

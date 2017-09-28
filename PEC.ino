@@ -1,6 +1,6 @@
 // The pec.htm page
 
-const char html_pec1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_pec1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_pec2[] = "</td></tr></table>";
 const char html_pec3[] = "</div><div class=\"b\">\r\n";
 const char html_pec4[] = "PEC: <br /><br />";
@@ -22,7 +22,7 @@ const char html_pecControls5[] =
 
 void handlePec() {
   Serial.setTimeout(WebTimeout);
-  serialFlush();
+  serialRecvFlush();
       
   char temp[320] = "";
   char temp1[80] = "";

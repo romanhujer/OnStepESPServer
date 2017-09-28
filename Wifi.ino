@@ -1,6 +1,6 @@
 // The wifi.htm page
 
-const char html_wifi1[] = "<div class=\"t\"><table width=\"100%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
+const char html_wifi1[] = "<div class=\"t\"><table width=\"100%%\"><tr><td><b><font size=\"5\">%s</font></b></td><td align=\"right\"><b>" Product " " Version " (OnStep %s)</b>";
 const char html_wifi2[] = "</td></tr></table>";
 const char html_wifi3[] = "</div><div class=\"b\">\r\n";
 const char html_wifiSerial[] = 
@@ -109,7 +109,6 @@ void handleWifi() {
   Serial.setTimeout(WebTimeout);
   
   char temp[320]="";
-  char temp1[80]="";
   char temp2[80]="";
   char temp3[80]="";
   
@@ -172,7 +171,7 @@ void handleWifi() {
   uint8_t mac[6] = {0,0,0,0,0,0}; WiFi.macAddress(mac);
   char wifi_sta_mac[80]="";
   for (int i=0; i<6; i++) { sprintf(wifi_sta_mac,"%s%02x:",wifi_sta_mac,mac[i]); } wifi_sta_mac[strlen(wifi_sta_mac)-1]=0;
-  sprintf(temp,html_wifiMAC,wifi_sta_mac,""); data += temp;
+  sprintf(temp,html_wifiMAC,wifi_sta_mac); data += temp;
 
   sprintf(temp,html_wifiSTAIP,wifi_sta_ip[0],wifi_sta_ip[1],wifi_sta_ip[2],wifi_sta_ip[3]); data += temp;
   sprintf(temp,html_wifiSTAGW,wifi_sta_gw[0],wifi_sta_gw[1],wifi_sta_gw[2],wifi_sta_gw[3]); data += temp;
@@ -183,7 +182,7 @@ void handleWifi() {
   uint8_t macap[6] = {0,0,0,0,0,0}; WiFi.softAPmacAddress(macap);
   char wifi_ap_mac[80]="";
   for (int i=0; i<6; i++) { sprintf(wifi_ap_mac,"%s%02x:",wifi_ap_mac,macap[i]); } wifi_ap_mac[strlen(wifi_ap_mac)-1]=0;
-  sprintf(temp,html_wifiApMAC,wifi_ap_mac,""); data += temp;
+  sprintf(temp,html_wifiApMAC,wifi_ap_mac); data += temp;
   
   sprintf(temp,html_wifiSSID4,wifi_ap_ip[0],wifi_ap_ip[1],wifi_ap_ip[2],wifi_ap_ip[3]); data += temp;
   sprintf(temp,html_wifiSSID5,wifi_ap_gw[0],wifi_ap_gw[1],wifi_ap_gw[2],wifi_ap_gw[3]); data += temp;
@@ -199,8 +198,6 @@ void handleWifi() {
 
 void processWifiGet() {
   String v,v1;
-  int i;
-  char temp[20]="";
   
   boolean EEwrite=false;
 

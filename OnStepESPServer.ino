@@ -33,7 +33,7 @@
  */
  
 #define Product "OnEsp"
-#define Version "1.0a 09 20 17"
+#define Version "1.0a 09 28 17"
 
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -158,8 +158,6 @@ void setup(void){
 #endif
   EEPROM.begin(1024);
 
-Restart:
-
   // EEPROM Init
   if ((EEPROM_readInt(0)!=8266) || (EEPROM_readInt(2)!=0)) {
     EEPROM_writeInt(0,8266);
@@ -228,8 +226,8 @@ Again:
     digitalWrite(LED_PIN,HIGH);
 #endif
     delay(500);
-    while (Serial.available()>0) { c=Serial.read(); }
     Serial.flush();
+    serialRecvFlush();
 #ifdef LED_PIN
     digitalWrite(LED_PIN,LOW);
 #endif
@@ -315,7 +313,7 @@ Again:
   for (int i=0; i<3; i++) {
     Serial.print(":#");
     delay(50);
-    while (Serial.available()>0) { char temp=Serial.read(); }
+    serialRecvFlush();
   }
 
   // Wait for connection
@@ -367,7 +365,7 @@ void loop(void){
     writeBuffer[writeBufferPos]=b; writeBufferPos++; if (writeBufferPos>39) writeBufferPos=39; writeBuffer[writeBufferPos]=0;
 
     // send cmd and pickup the response
-    if (b=='#' || ((strlen(writeBuffer)==1) && (b==(char)6))) {
+    if ((b=='#') || ((strlen(writeBuffer)==1) && (b==(char)6))) {
       char readBuffer[40]="";
       readLX200Bytes(writeBuffer,readBuffer,CmdTimeout); writeBuffer[0]=0; writeBufferPos=0;
 
