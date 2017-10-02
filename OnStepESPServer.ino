@@ -42,8 +42,35 @@
 #include <ESP8266WiFiAP.h>
 #include <EEPROM.h>
 
+#ifdef HUJER_NET_ON
+#define Default_Password "OnStepHR"
+#else
 #define Default_Password "password"
+#endif
 char masterPassword[40]=Default_Password;
+
+#ifdef HUJER_NET_ON
+
+bool accessPointEnabled=true;
+bool stationEnabled=false;
+bool stationDhcpEnabled=false;
+
+char wifi_sta_ssid[40]="HujerIoT";
+char wifi_sta_pwd[40]="IoT2HR2IoT";
+
+IPAddress wifi_sta_ip = IPAddress(10,104,11,5);
+IPAddress wifi_sta_gw = IPAddress(10,104,11,1);
+IPAddress wifi_sta_sn = IPAddress(255,255,255,0);
+
+char wifi_ap_ssid[40]="OnStep";
+char wifi_ap_pwd[40]="OnStepHR";
+byte wifi_ap_ch=1;
+
+IPAddress wifi_ap_ip = IPAddress(10,104,20,5);
+IPAddress wifi_ap_gw = IPAddress(10,104,20,1);
+IPAddress wifi_ap_sn = IPAddress(255,255,255,0);
+
+#else
 
 bool accessPointEnabled=true;
 bool stationEnabled=false;
@@ -63,6 +90,7 @@ byte wifi_ap_ch=7;
 IPAddress wifi_ap_ip = IPAddress(192,168,0,1);
 IPAddress wifi_ap_gw = IPAddress(192,168,0,1);
 IPAddress wifi_ap_sn = IPAddress(255,255,255,0);
+#endif
 
 // base timeouts
 int WebTimeout=TIMEOUT_WEB;  // default 15
