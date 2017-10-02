@@ -94,6 +94,32 @@ void handleRoot() {
   sprintf(temp,html_indexSidereal,temp2);
   data += temp;
 
+#ifdef GPS_ON
+
+  OnStepGPS();   
+
+  // Latest GPS Data
+  data += html_gpsGPS1;
+  if (GPS_sync ){
+      if ( g_lat > 0 ) {
+        sprintf(temp1, "N %02d&deg;%02d'%02d", int(g_lat), i_g_min_s( g_lat ), i_g_sec_s( g_lat ));
+      } else {
+        sprintf(temp1, "S %02d&deg;%02d'%02d", int(-g_lat), i_g_min_s( -g_lat ), i_g_sec_s( -g_lat ));
+      }
+      if ( g_lon > 0 ) {
+        sprintf(temp2, "E %03d&deg;%02d'%02d", int(g_lon), i_g_min_s( g_lon ), i_g_sec_s( g_lon ));
+      } else {
+        sprintf(temp2, "W %02d&deg;%02d'%02d", int(-g_lon), i_g_min_s( -g_lon ), i_g_sec_s( -g_lon ));
+      }
+     sprintf(temp, html_gpsGPS2, temp1, temp2, int(g_alt), g_sats, g_year, g_month, g_day, g_hour, g_minute, g_second);
+     data += temp;
+     data += "<br /><br />";
+   } else 
+      if ( ! GPS_wiring_OK ) data += html_gpsGPS4;   
+      else if ( ! GPS_data_OK ) data += html_gpsGPS5;  
+      else if ( ! GPS_sats_OK ) data += html_gpsGPS6;  
+#endif 
+
   // Longitude and Latitude
   Serial.print(":Gg#");
   temp2[Serial.readBytesUntil('#',temp2,20)]=0; 

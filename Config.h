@@ -3,7 +3,19 @@
 
 #define HUJER_NET_ON  // Hujer.net  Default OFF
  
-#define DEBUG_OFF                 // Turn ON to allow WiFi startup without OnStep attached (Serial port for debug at 115200 baud)
+#define DEBUG_OFF                 // Turn ON to allow WiFi startup without OnStep attached 
+#define DEBUG_SERIAL_BAUD 74880   // Serial port for debug at 74880 baud is Default for WeMos D1 boot
+ 
+#define GPS_ON   // GPS module Default=OFF
+
+#ifdef GPS_ON
+#define AUTO_GPS_ON  // Automatic upload GPS sync data after startup  Default=ON
+#define gpsRXpin 13  // GPS RXpin Default GIPO 13 (D7) for WeMos D1 or 4 (D2) or 2 for ESP-01 (connect to TXpin on NEO-6 GPS module)
+#define gpsTXpin 12  // GPS TXpin Default GIPO 12 (D6) for WeMos D1 or 5 (D1) or 0 for ESP-01 (connect to RXpin on NEO-6 GPS module)
+#define GPSBaud 9600
+#endif 
+
+
 
 #define LED_PIN_OFF               // Default=OFF, Flashes LED when trying to connect to OnStep, use LED_PIN D4 for WeMos D1 Mini
 

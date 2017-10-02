@@ -42,6 +42,22 @@
 #include <ESP8266WiFiAP.h>
 #include <EEPROM.h>
 
+#ifdef GPS_ON
+
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
+
+TinyGPSPlus gps;
+SoftwareSerial gpsSerial(gpsRXpin, gpsTXpin);
+
+#ifdef AUTO_GPS_ON
+bool GPS_upload_request = true;
+#else
+bool GPS_upload_request = false;
+#endif
+
+#endif 
+
 #ifdef HUJER_NET_ON
 #define Default_Password "OnStepHR"
 #else
@@ -184,6 +200,11 @@ void setup(void){
 #ifdef LED_PIN
   pinMode(LED_PIN,OUTPUT);
 #endif
+
+#ifdef GPS_ON  
+  gpsSerial.begin(GPSBaud);
+#endif
+
   EEPROM.begin(1024);
 
   // EEPROM Init
@@ -294,7 +315,7 @@ Again:
     goto Again;
   }
 #else
-  Serial.begin(115200);
+  Serial.begin(DEBUG_SERIAL_BAUD); 
   delay(10000);
   
   Serial.println(accessPointEnabled);
@@ -373,6 +394,11 @@ Again:
 }
 
 void loop(void){
+
+#ifdef GPS_ON  
+  if ( GPS_upload_request )  OnStepGPS(); 
+#endif 
+  
   server.handleClient();
 
   // disconnect client

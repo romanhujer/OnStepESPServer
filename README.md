@@ -1,4 +1,5 @@
-# OnStepESPServer
+# OnStepESPServer with GPS
+THIS IS THE ALPHA VERSION !!!
 
 This is the ESP8266 webserver for OnStep.  It provides WiFi (IP) access to connect to OnStep via command channel and/or website.  This works with Sky Safari (tablets/phones,) my OnStep Android App, and my ASCOM driver (PC.)
 
